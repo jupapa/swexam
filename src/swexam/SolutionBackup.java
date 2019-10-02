@@ -8,7 +8,7 @@ import java.util.Scanner;
 
 import javax.swing.plaf.basic.BasicInternalFrameTitlePane.MaximizeAction;
 
-public class Solution {
+public class SolutionBackup {
 
 	private static int start;
 	private static int end;
@@ -85,43 +85,44 @@ public class Solution {
 		// TODO Auto-generated method stub
 		boolean tmpVal = false;
 		boolean rtnVal = false;
+
 		
+		// child node
+
+		int childNode = edge[startParentIdx][1];
+
+		// 기 방문한 child node는 미방문
+		if (nodeArr[childNode][0] == 1)
+			return false;
+		System.out.print("->" + childNode);
+
+		// child node가 == end 면 return;
+		if (childNode == end) { // end node에 도달하면 부모에게 갱신요청
+			return true;
+		}
+
 		// 자식노드 차례로 방문
-	
+
 		int range = nodeArr[parent][1];
-		int childNodeIndex = 0;
 
-		for(int i=startParentIdx; i<+startParentIdx+range; i++) {
-			// Child Node가 이미 방문한 노드이며 Pass
+		for (int i = 0; i < range; i++) {
 			
-			if(nodeArr[edge[i][1]][0] == 1) continue;
-			
-			nodeArr[edge[i][1]][0] = 1;
-			
-			if(edge[i][1] == end) {  // node 가 end 이면 update 하고 Next
-				rtnVal = true;
-				updMinMax(edge[i][2]);
-				System.out.println(("->"+end));
-				nodeArr[edge[i][1]][0] = 0;	
-			}else {
-				System.out.println("->"+edge[i][1]);
-				childNodeIndex = srchStartIdx(edge[i][1]);
+			int startChildIndex = srchStartIdx(edge[startParentIdx + i][1]);
+			nodeArr[edge[startParentIdx + i][1]][0] = 1; // 방문
+			tmpVal = visitEdge(startChildIndex, edge[startParentIdx + i][1]);
+			nodeArr[edge[startParentIdx + i][1]][0] = 0; // 방문
+			if (tmpVal) {
+				updMinMax(edge[startParentIdx + i][1]);
+				rtnVal = tmpVal;
 
-				tmpVal = visitEdge(childNodeIndex, edge[i][1]);
-				if(tmpVal) {
-					updMinMax(edge[i][2]);
-					rtnVal = true;
+				// 최상위 노드인 경우
+				if (edge[startParentIdx + i][0] == start) {
+					updFinalMinMax();
 				}
 			}
-			
-			nodeArr[edge[i][1]][0] = 0;
-			
+
 		}
-		
-		if(parent == start && rtnVal) {
-			updFinalMinMax();
-		} 
-		
+
 		return rtnVal;
 	}
 
