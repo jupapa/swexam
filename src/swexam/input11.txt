@@ -1,0 +1,29 @@
+4     // 테스트케이스 
+5 5 1 // 1번째 케이
+A
+AAEFM
+BDEKN
+ADFJN
+ACFIM
+ABGHA
+5 5 1  // 2번째 케이
+F
+AAEFM
+BDEKN
+ADFJN
+ACFIM
+ABGHA
+5 5 3 // 3번째 케이스
+GFA
+AAEFM
+BDEKN
+ADFJN
+ACFIM
+ABGHA
+5 5 4 // 4번째 케이스
+BAZA
+AACBA
+ABCHU
+ACFIA
+ABKPA
+AAZMA
