@@ -8,14 +8,14 @@ import java.util.Scanner;
 
 import javax.swing.plaf.basic.BasicInternalFrameTitlePane.MaximizeAction;
 
-public class Solution {
+public class Solution_09 {
 
 	private static int start;
 	private static int end;
 	private static int[][] nodeArr;
 	private static Integer[][] edge;
-	private static int minMax[] = new int[2]; // max, min, gap
-	private static int finalMinMax[] = new int[2]; // max, min, gap
+	private static int minMax[] = new int[2]; // min, max
+	private static int finalMinMax[] = new int[2]; // min, max
 	private static int totNodeLength;
 	private static int totEdgeLengh;
 
@@ -25,7 +25,13 @@ public class Solution {
 			System.setIn(new FileInputStream(new File("/Users/actmember/eclipse-workspace/swexam/src/swexam/input.txt")));
 			sc = new Scanner(System.in);
 			int tc = sc.nextInt();
-
+			
+			finalMinMax[0] = 1000000001;
+			finalMinMax[1] = 0;
+			
+			minMax[0] = 1000000001;
+			minMax[1] = 0;
+			
 			// node의 갯수와 edge 갯수를 받아 온다.
 			for (int i = 0; i < tc; i++) {
 				int nodeCnt = sc.nextInt();
@@ -105,13 +111,13 @@ public class Solution {
 				nodeArr[edge[i][1]][0] = 0;	
 			}else {
 				System.out.println("->"+edge[i][1]);
-				childNodeIndex = srchStartIdx(edge[i][1]);
-
-				tmpVal = visitEdge(childNodeIndex, edge[i][1]);
-				if(tmpVal) {
-					updMinMax(edge[i][2]);
-					rtnVal = true;
-				}
+				childNodeIndex = srchStartIdx(edge[i][1]);	
+			}
+			
+			tmpVal = visitEdge(childNodeIndex, edge[i][1]);
+			if(tmpVal) {
+				rtnVal = true;
+				updMinMax(edge[i][2]);
 			}
 			
 			nodeArr[edge[i][1]][0] = 0;
@@ -127,10 +133,11 @@ public class Solution {
 
 	private static void updFinalMinMax() {
 		// TODO Auto-generated method stub
-		if (finalMinMax[0] < minMax[0])
+		if (finalMinMax[0] > minMax[0])
 			finalMinMax[0] = minMax[0];
 		if (finalMinMax[1] < minMax[1])
 			finalMinMax[1] = minMax[1];
+		System.out.println("finalMinMax = "+"("+finalMinMax[0]+","+finalMinMax[1]+")");
 	}
 
 	private static void updMinMax(int speed) {
@@ -139,6 +146,8 @@ public class Solution {
 			minMax[0] = speed;
 		if (minMax[1] < speed)
 			minMax[1] = speed;
+		
+		System.out.println("minMax = "+"("+minMax[0]+","+minMax[1]+")");
 	}
 
 	public static void printArray(Object[][] arr) {
